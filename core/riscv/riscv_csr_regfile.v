@@ -101,6 +101,7 @@ reg [31:0]  csr_mip_q;
 reg [31:0]  csr_mie_q;
 reg [1:0]   csr_mpriv_q;
 reg [31:0]  csr_mcycle_q;
+reg [31:0]  csr_minstret_q;
 reg [31:0]  csr_mcycle_h_q;
 reg [31:0]  csr_mscratch_q;
 reg [31:0]  csr_mtval_q;
@@ -191,6 +192,7 @@ begin
     `CSR_MIE:      rdata_r = csr_mie_q & `CSR_MIE_MASK;
     `CSR_MCYCLE,
     `CSR_MTIME:    rdata_r = csr_mcycle_q;
+    `CSR_MINSTRET: rdata_r = csr_minstret_q;  // read instret
     `CSR_MTIMEH:   rdata_r = csr_mcycle_h_q;
     `CSR_MHARTID:  rdata_r = cpu_id_i;
     `CSR_MISA:     rdata_r = misa_i;
@@ -230,6 +232,7 @@ reg [31:0]  csr_mip_r;
 reg [31:0]  csr_mie_r;
 reg [1:0]   csr_mpriv_r;
 reg [31:0]  csr_mcycle_r;
+reg [31:0]  csr_minstret_r;
 reg [31:0]  csr_mscratch_r;
 reg [31:0]  csr_mtimecmp_r;
 reg         csr_mtime_ie_r;
@@ -264,6 +267,7 @@ begin
     csr_mpriv_r     = csr_mpriv_q;
     csr_mscratch_r  = csr_mscratch_q;
     csr_mcycle_r    = csr_mcycle_q + 32'd1;
+    csr_minstret_r  = csr_minstret_q + (csr_ren_i ? 32'd1 : 32'd0);  // 
     csr_mtimecmp_r  = csr_mtimecmp_q;
     csr_mtime_ie_r  = csr_mtime_ie_q;
     csr_medeleg_r   = csr_medeleg_q;
@@ -507,6 +511,7 @@ begin
     csr_mie_q          <= 32'b0;
     csr_mpriv_q        <= `PRIV_MACHINE;
     csr_mcycle_q       <= 32'b0;
+    csr_minstret_q     <= 32'b0;
     csr_mcycle_h_q     <= 32'b0;
     csr_mscratch_q     <= 32'b0;
     csr_mtimecmp_q     <= 32'b0;
@@ -535,6 +540,7 @@ begin
     csr_mip_q          <= csr_mip_r;
     csr_mie_q          <= csr_mie_r;
     csr_mpriv_q        <= SUPPORT_SUPER ? csr_mpriv_r : `PRIV_MACHINE;
+    csr_minstret_q     <= csr_minstret_r;
     csr_mcycle_q       <= csr_mcycle_r;
     csr_mscratch_q     <= csr_mscratch_r;
     csr_mtimecmp_q     <= SUPPORT_MTIMECMP ? csr_mtimecmp_r : 32'b0;

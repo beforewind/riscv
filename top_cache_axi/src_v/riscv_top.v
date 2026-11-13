@@ -49,7 +49,7 @@ module riscv_top
 #(
      parameter CORE_ID          = 0
     ,parameter MEM_CACHE_ADDR_MIN = 0
-    ,parameter MEM_CACHE_ADDR_MAX = 32'hffffffff
+    ,parameter MEM_CACHE_ADDR_MAX = 32'h0FFFFFFF  // UART等外设不能cachable //
 )
 //-----------------------------------------------------------------
 // Ports

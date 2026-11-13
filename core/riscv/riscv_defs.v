@@ -367,6 +367,8 @@
 `define CSR_MCYCLE_MASK   32'hFFFFFFFF
 `define CSR_MTIME         12'hc01
 `define CSR_MTIME_MASK    32'hFFFFFFFF
+`define CSR_MINSTRET      12'hc02
+`define CSR_MINSTRET_MASK 32'hFFFFFFFF
 `define CSR_MTIMEH        12'hc81
 `define CSR_MTIMEH_MASK   32'hFFFFFFFF
 `define CSR_MHARTID       12'hF14
